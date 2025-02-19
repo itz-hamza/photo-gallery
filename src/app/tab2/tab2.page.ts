@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { RecordingService } from '../services/recording.service';
 
 @Component({
   selector: 'app-tab2',
@@ -8,6 +9,26 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  // micFunction = signal(this.askForPermission())
+
+  icon = signal("mic")
+  constructor(public recordingService : RecordingService) {}
+
+  askForPermission()
+  {
+
+    if(this.icon() === "mic")
+    {
+      this.icon.set('stop')
+      this.recordingService.startRecording(); 
+    }
+
+    else
+    {
+      this.icon.set('mic')
+      this.recordingService.stopRecording()
+    }
+    // this.micFunction.set(this.stopRecording());
+  }
 
 }
